@@ -81,3 +81,23 @@
         }
     }
 }
+
+.home{
+    background-color: #a7bcff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+    .container{
+        border: 1px solid white;
+        border-radius: 0.3rem;
+        width: 65%;
+        height: 80%;
+        display: flex;
+
+        .sidebar{
+            flex: 1;
+        }
+    }
+}
