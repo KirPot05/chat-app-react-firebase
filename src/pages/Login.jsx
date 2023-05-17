@@ -1,10 +1,8 @@
-import AddAvatar from "../assets/addAvatar.png";
-
 function Login() {
   return (
     <section className="form-container">
       <div className="form-wrapper">
-        <span className="logo"> XYZ Chat </span>
+        <span className="logo"> Aur Batao </span>
         <span className="title">Login</span>
 
         <form>
@@ -14,7 +12,7 @@ function Login() {
           <button type="submit"> Sign In </button>
         </form>
 
-        <p>Don't have an account? Register </p>
+        <p>Don&apos;t have an account? Register </p>
       </div>
     </section>
   );

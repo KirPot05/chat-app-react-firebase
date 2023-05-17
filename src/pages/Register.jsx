@@ -4,7 +4,7 @@ function Register() {
   return (
     <section className="form-container">
       <div className="form-wrapper">
-        <span className="logo"> XYZ Chat </span>
+        <span className="logo"> Aur Batao </span>
         <span className="title">Register</span>
 
         <form>
