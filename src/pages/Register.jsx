@@ -1,31 +1,44 @@
 import { useEffect, useState } from "react";
 import AddAvatar from "../assets/addAvatar.png";
 import Input from "../components/global/Input";
-import { signUp } from "../services/auth";
+import { signUp, updateUserImg } from "../services/auth";
 import { handleImageUpload } from "../services";
-import { updateProfile } from "firebase/auth";
+import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "../context/authContext";
 
 function Register() {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [file, setFile] = useState("");
-  const [imgUrl, setImgUrl] = useState("");
   const [percentage, setPercentage] = useState(0);
 
-  useEffect(() => {}, []);
+  const navigate = useNavigate();
+
+  const { currentUser } = useAuth();
+
+  useEffect(() => {
+    if (currentUser !== null) {
+      navigate("/");
+    }
+  }, []);
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     try {
       const user = await signUp(email, password, name);
-      await handleImageUpload(file, name, setPercentage, setImgUrl);
+      await handleImageUpload(
+        user.uid,
+        file,
+        name,
+        setPercentage,
+        async (url) => {
+          await updateUserImg(user.uid, url);
+        }
+      );
 
-      updateProfile(user, {
-        displayName: name,
-        photoURL: imgUrl,
-      });
+      navigate("/");
     } catch (error) {
       console.error(error);
       alert(error.message);
@@ -66,14 +79,19 @@ function Register() {
             onChange={(e) => setFile(e.target.files[0])}
           />
           <label htmlFor="file">
-            <img src={imgUrl || AddAvatar} alt="Add Avatar" />
-            {!imgUrl && <span>Add an avatar</span>}
+            <img
+              src={file !== "" ? URL.createObjectURL(file) : AddAvatar}
+              alt="Add Avatar"
+            />
+            {!file && <span>Add an avatar</span>}
           </label>
 
           <button type="submit"> Sign Up </button>
         </form>
 
-        <p>Have an account already? Login </p>
+        <p>
+          Have an account already? <Link to="/login"> Login </Link>{" "}
+        </p>
       </div>
     </section>
   );

@@ -2,10 +2,11 @@ import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { storageInstance } from "../lib/firebase";
 
 export async function handleImageUpload(
+  userId,
   file,
   name,
   setPercentageUploaded,
-  setImageDownloadURL
+  callback
 ) {
   try {
     if (file === null || file === undefined) {
@@ -28,7 +29,7 @@ export async function handleImageUpload(
       },
       async () => {
         const url = await getDownloadURL(uploadTask.snapshot.ref);
-        await setImageDownloadURL(url);
+        callback(url);
       }
     );
   } catch (error) {

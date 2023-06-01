@@ -1,25 +1,14 @@
 import { Route, Routes, useLocation } from "react-router-dom";
 import Paths from "./Routes";
 import "./styles.scss";
-import { useEffect, useState } from "react";
+import { useContext } from "react";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import { onAuthStateChanged } from "firebase/auth";
-import { auth } from "./lib/firebase";
+import { AuthContext } from "./context/authContext";
 
 function App() {
-  const [user, setUser] = useState(null);
+  const { currentUser: user } = useContext(AuthContext);
   const location = useLocation();
-
-  useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (currentAuth) => {
-      if (currentAuth !== null) {
-        setUser(currentAuth);
-      }
-    });
-
-    return () => unsub();
-  }, []);
 
   return (
     <>
